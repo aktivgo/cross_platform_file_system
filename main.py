@@ -45,16 +45,13 @@ def get_dir_size(dir_path):
 
 
 def create_file(file_path):
-    if not os.path.exists(file_path):
-        raise FileExistsError
-
     fd = os.open(file_path, os.O_RDWR | os.O_CREAT)
     os.close(fd)
     print('Успешно')
 
 
 def copy_file(file_path_from, file_path_to):
-    if not os.path.exists(file_path_from) or not os.path.exists(file_path_to):
+    if not os.path.exists(file_path_from):
         raise FileExistsError
 
     shutil.copy2(file_path_from, file_path_to)
@@ -73,7 +70,7 @@ def delete_item(item_path):
 
 
 def move_dir(dir_path_from, dir_path_to):
-    if not os.path.exists(dir_path_from) or not os.path.exists(dir_path_to):
+    if not os.path.exists(dir_path_from):
         raise FileExistsError
 
     shutil.move(dir_path_from, dir_path_to)
@@ -128,13 +125,14 @@ def is_hidden_on_linux(filepath):
 
 if __name__ == '__main__':
 
-    while True:
+    menu = -1
+    while menu != "0":
         try:
             print_menu()
             menu = input("Выберите пункт меню: ")
 
-            if menu == '0':
-                exit()
+            if menu == "0":
+                print("Пока")
             elif menu == '1':
                 path = input("Введите путь: ")
                 print()
