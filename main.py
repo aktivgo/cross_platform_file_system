@@ -81,7 +81,14 @@ def set_attr_readonly(item_path):
     if not os.path.exists(item_path):
         raise FileExistsError
 
-    os.chmod(item_path, 0o444)
+    if sys.platform == 'win32':
+        os.chmod(item_path, stat.S_IREAD)
+    elif sys.platform == 'linux':
+        os.system("sudo chattr +i " + item_path)
+    else:
+        raise Exception('Неопознанная операционная система')
+
+    # os.chmod(item_path, 0o444)
     print('Успешно')
 
 
@@ -89,7 +96,14 @@ def unset_attr_readonly(item_path):
     if not os.path.exists(item_path):
         raise FileExistsError
 
-    os.chmod(item_path, 0o777)
+    if sys.platform == 'win32':
+        os.chmod(item_path, stat.S_IWRITE | stat.S_IREAD)
+    elif sys.platform == 'linux':
+        os.system("sudo chattr -i " + item_path)
+    else:
+        raise Exception('Неопознанная операционная система')
+
+    # os.chmod(item_path, 0o777)
     print('Успешно')
 
 
